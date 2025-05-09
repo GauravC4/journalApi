@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class JournalService {
@@ -22,18 +23,16 @@ public class JournalService {
         return journalRepository.GetAllJournalEntries();
     }
 
-    public JournalEntry GetEntryById(int id) {
-        if(id < 1) return new JournalEntry();
-        JournalEntry entry = journalRepository.GetJournalEntryById(id);
-        if(entry != null) return entry;
-        return new JournalEntry();
+    public Optional<JournalEntry> GetEntryById(int id) {
+        if(id < 1) return Optional.empty();
+        return journalRepository.GetJournalEntryById(id);
     }
 
     @Transactional
-    public JournalEntry AddJournalEntry(JournalEntry entry) {
+    public Optional<JournalEntry> AddJournalEntry(JournalEntry entry) {
         Integer id = journalRepository.AddJournalEntry(entry);
         if(id == null) {
-            return new JournalEntry();
+            return Optional.empty();
         }
         return journalRepository.GetJournalEntryById(id);
     }

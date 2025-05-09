@@ -13,6 +13,8 @@ import org.springframework.jdbc.datasource.lookup.MapDataSourceLookup;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
 
 @Repository
 public class JournalRepository {
@@ -34,16 +36,17 @@ public class JournalRepository {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(JournalEntry.class));
     }
 
-    public JournalEntry GetJournalEntryById(int id) {
+    public Optional<JournalEntry> GetJournalEntryById(int id) {
         final String sql = "select id, title, entry from journal where id = :id";
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("id", id);
 
         try{
-            return namedParameterJdbcTemplate.queryForObject(sql, parameters, new BeanPropertyRowMapper<>(JournalEntry.class));
+            JournalEntry entry =  namedParameterJdbcTemplate.queryForObject(sql, parameters, new BeanPropertyRowMapper<>(JournalEntry.class));
+            return Optional.ofNullable(entry);
         } catch (EmptyResultDataAccessException e) {
-            return null;
+            return Optional.empty();
         }
     }
 
