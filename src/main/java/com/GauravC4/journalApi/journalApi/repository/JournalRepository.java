@@ -32,12 +32,12 @@ public class JournalRepository {
     }
 
     public List<JournalEntry> GetAllJournalEntries() {
-        final String sql = "select id, title, entry from journal";
+        final String sql = "select id, title, entry, created_on, modified_on from journal";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(JournalEntry.class));
     }
 
     public Optional<JournalEntry> GetJournalEntryById(int id) {
-        final String sql = "select id, title, entry from journal where id = :id";
+        final String sql = "select id, title, entry, created_on, modified_on from journal where id = :id";
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("id", id);
@@ -51,7 +51,7 @@ public class JournalRepository {
     }
 
     public Integer AddJournalEntry(JournalEntry entry) {
-        final String sql = "insert into journal(title, entry) values(:title, :entry) returning id";
+        final String sql = "insert into journal(title, entry, created_on, modified_on) values(:title, :entry, now(), now()) returning id";
 
         BeanPropertySqlParameterSource parameters = new BeanPropertySqlParameterSource(entry);
 

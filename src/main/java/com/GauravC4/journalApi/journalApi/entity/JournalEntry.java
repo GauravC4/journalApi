@@ -1,5 +1,11 @@
 package com.GauravC4.journalApi.journalApi.entity;
 
+
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
 public class JournalEntry {
 
     private long id;
@@ -8,37 +14,7 @@ public class JournalEntry {
 
     private String entry;
 
-    public long getId() {
-        return id;
-    }
+    private LocalDateTime created_on;
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getEntry() {
-        return entry;
-    }
-
-    public void setEntry(String entry) {
-        this.entry = entry;
-    }
-
-    @Override
-    public String toString() {
-        return "JournalEntry{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", entry='" + entry + '\'' +
-                '}';
-    }
-
+    private LocalDateTime modified_on;
 }
